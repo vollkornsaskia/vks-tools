@@ -1,0 +1,24 @@
+#! /bin/bash
+# Usage: add-image /path/to/original name
+
+orig=$1
+name=$2
+
+convert -resize 320x -quality 75%% $orig ~/Code/vks-testing/images/$name-s.jpg
+convert -resize 640x -quality 75%% $orig ~/Code/vks-testing/images/$name-m.jpg
+convert -resize 1280x -quality 75%% $orig ~/Code/vks-testing/images/$name-l.jpg
+convert -resize 2560x -quality 75%% $orig ~/Code/vks-testing/images/$name-xl.jpg
+
+tag="
+<img src=\"../../images/$name-s.jpg\"
+     srcset=\"../../images/$name-xl.jpg 2560w,
+             ../../images/$name-l.jpg 1280w,
+             ../../images/$name-m.jpg 640w,
+             ../../images/$name-s.jpg 320w\"
+     sizes=\"(min-width: 768px) 80vw,
+             (min-width: 1920px) 40vw,
+             100vw\"
+     alt=\"$name\" /> 
+"
+
+wl-copy $tag
